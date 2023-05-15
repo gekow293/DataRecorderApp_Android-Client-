@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">DataRecorderApp</string>
+    <string name="action_settings">Settings</string>
+    <string name="deactivating_admin">deactivating_admin</string>
+    <string name="activating_admin">activating_admin</string>
+    <string name="admin_cancelled">admin_cancelled</string>
+    <string name="admin_activated">admin_activated</string>
+    <string name="admin_on">ADMIN ON</string>
+    <string name="admin_off">ADMIN OFF</string>
+    <string name="profile_name">profile_name</string>
+    <string name="enterprise_device_admin">enterprise_device_admin</string>
+    <string name="Server">server_toggle</string>
+    <item name="latitude4" type="id" />
+    <item name="latitude5" type="id" />
+    <item name="latitude2" type="id" />
+    <item name="latitude3" type="id" />
+</resources>

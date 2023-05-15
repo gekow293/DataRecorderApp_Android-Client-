@@ -1,0 +1,53 @@
+apply plugin: 'com.android.library'
+apply plugin: "com.vanniktech.maven.publish"
+
+android {
+    compileSdkVersion COMPILE_SDK_VERSION
+    defaultConfig {
+        minSdkVersion MIN_SDK_VERSION
+        targetSdkVersion TARGET_SDK_VERSION
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_6
+        targetCompatibility JavaVersion.VERSION_1_6
+    }
+
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
+
+    libraryVariants.all {
+        it.generateBuildConfigProvider.configure { enabled = false }
+    }
+}
+
+configurations {
+    lintChecks
+}
+
+dependencies {
+    implementation "androidx.core:core:$ANDROIDX_LIBRARY_VERSION"
+    implementation "androidx.fragment:fragment:$ANDROIDX_LIBRARY_VERSION"
+    implementation "androidx.collection:collection:$ANDROIDX_LIBRARY_VERSION"
+
+    testImplementation "junit:junit:$JUNIT_VERSION"
+    testImplementation "org.mockito:mockito-core:$MOCKITO_VERSION"
+    testImplementation "org.powermock:powermock-api-mockito2:$POWERMOCK_VERSION"
+    testImplementation "org.powermock:powermock-module-junit4:$POWERMOCK_VERSION"
+
+    api project(path: ':annotation')
+    lintChecks project(path: ':lint', configuration: 'lintChecks')
+}
+
+task copyLintJar(type: Copy) {
+    from(configurations.lintChecks) {
+        rename { 'lint.jar' }
+    }
+    into 'build/intermediates/lint/'
+}
+
+project.afterEvaluate {
+    def compileLintTask = project.tasks.find { it.name == 'compileLint' }
+    compileLintTask.dependsOn(copyLintJar)
+}
